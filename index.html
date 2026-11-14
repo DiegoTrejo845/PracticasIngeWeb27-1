@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Tienda en Línea</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <!-- Encabezado con título y botón de navegación al carrito en una sola fila -->
+  <header class="main-header">
+    <h1 class="logo">Mi Tienda en Línea</h1>
+
+    <!-- Botón de Navegación con contador integrado dentro del carrito (boton_carrito.html del profesor) -->
+    <button id="open-cart-btn" class="nav-btn-cart" aria-label="Ver Carrito">
+      <div class="cart-icon-wrapper">
+        <!-- SVG Moderno del Carrito -->
+        <svg class="cart-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2.5 3.5h2.8l2.1 11.2a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.5l1.6-7.8H6.5" />
+          <path d="M9 10.5h10.5" stroke-dasharray="2 2" opacity="0.6" />
+          <circle cx="9.5" cy="19.5" r="1.5" fill="currentColor" />
+          <circle cx="18.5" cy="19.5" r="1.5" fill="currentColor" />
+        </svg>
+        <!-- Badge en la esquina superior derecha -->
+        <span id="cart-badge" class="badge-top-right">0</span>
+      </div>
+    </button>
+  </header>
+
+  <main>
+    <!-- Vista 1: Catálogo (visible por defecto). Lo llena CatalogComponent: US 1.1 (DUPT-10) -->
+    <section id="catalog-view" class="view active">
+      <div id="catalog-container"></div>
+    </section>
+
+    <!-- Vista 2: Carrito (oculta hasta hacer clic en el carrito). La llena CartViewComponent: US 2.2 (DUPT-12) y US 3.1 (DUPT-13) -->
+    <section id="cart-view" class="view">
+      <div class="cart-page-header">
+        <h2>Contenido de tu Carrito</h2>
+        <!-- Botón de Navegación para regresar -->
+        <button id="close-cart-btn" class="nav-btn-back">← Volver al Catálogo</button>
+      </div>
+      <div id="cart-container"></div>
+    </section>
+  </main>
+
+  <!-- type="module" es obligatorio para usar import / export -->
+  <script type="module" src="./src/app.js"></script>
+</body>
+</html>

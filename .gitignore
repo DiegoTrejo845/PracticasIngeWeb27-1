@@ -1,0 +1,11 @@
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Dependencias (por si después usan Node.js)
+node_modules/
+
+# Configuración personal del editor (se comparte solo la lista de extensiones)
+.vscode/*
+!.vscode/extensions.json
