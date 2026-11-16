@@ -180,5 +180,94 @@ button { font: inherit; cursor: pointer; }
 }
 
 
+
 /* ---------- Vista del carrito: US 2.2 (DUPT-31, DUPT-32) y US 3.1 (DUPT-35 a DUPT-37) ---------- */
 
+.cart-items {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.item-carrito {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 15px;
+  background: var(--tarjeta, #FFFFFF);
+  border: 1px solid var(--borde, #DCC9F2);
+  border-radius: 12px;
+}
+
+.item-info h3 {
+  font-size: 1rem;
+  margin-bottom: 4px;
+  color: var(--texto, #382747);
+}
+
+.item-info p {
+  font-size: 0.875rem;
+  color: var(--texto-secundario, #705B83);
+}
+
+.cantidad {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cantidad span {
+  min-width: 2ch;
+  text-align: center;
+  font-weight: bold;
+}
+
+.action-btn,
+.action-btn-delete {
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-weight: bold;
+}
+
+.action-btn {
+  min-width: 36px;
+  background: var(--borde, #DCC9F2);
+  color: var(--texto, #382747);
+}
+
+.action-btn-delete {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #BD5268;
+  color: #FFFFFF;
+}
+
+.action-btn:hover,
+.action-btn-delete:hover {
+  opacity: 0.85;
+}
+
+.icon-trash {
+  width: 16px;
+  height: 16px;
+}
+
+.resumen {
+  margin-top: 20px;
+  padding: 15px;
+  border-top: 1px solid var(--borde, #DCC9F2);
+  text-align: right;
+  color: var(--principal, #7950A5);
+}
+
+.vacio {
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  background: var(--fondo, #F5F0FA);
+  color: var(--texto-secundario, #705B83);
+}
