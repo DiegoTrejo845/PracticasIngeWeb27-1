@@ -4,7 +4,7 @@
 import { StorageService } from '../services/storageService.js';
 
 // DUPT-27 (US 2.1): la propuesta pide que la clave se llame 'cart'.
-const STORAGE_KEY = 'SHOPPING_CART';
+const STORAGE_KEY = 'cart';
 
 export class Cart {
   constructor() {
