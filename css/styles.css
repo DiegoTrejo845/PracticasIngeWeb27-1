@@ -1,6 +1,6 @@
+
 /* =====================================================================
    Estilos del proyecto
-   Cada sección indica qué historia de Jira la completa.
    ===================================================================== */
 
 /* ---------- Base y encabezado (boton_carrito.html del profesor) ---------- */
@@ -79,6 +79,105 @@ button { font: inherit; cursor: pointer; }
 .placeholder { padding: 32px; border: 2px dashed #cbd5e1; border-radius: 12px; text-align: center; color: #64748b; }
 
 /* ---------- Catálogo: US 1.1 (DUPT-24, grid de tarjetas responsivo) ---------- */
+/* Colores del catálogo */
+:root {
+  --fondo: #F5F0FA;
+  --tarjeta: #FFFFFF;
+  --texto: #382747;
+  --texto-secundario: #705B83;
+  --principal: #7950A5;
+  --borde: #DCC9F2;
+  --sombra: rgba(89, 52, 119, 0.15);
+}
+
+#catalog-container {
+  width: 100%;
+  min-width: 0;
+}
+
+.catalogo {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.tarjeta {
+  min-width: 0;
+  min-height: 330px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  border: 2px solid var(--borde);
+  border-radius: 15px;
+  background: var(--tarjeta);
+  color: var(--texto);
+  box-shadow: 0 4px 10px var(--sombra);
+  transition: transform 0.3s;
+}
+
+.tarjeta:hover {
+  transform: translateY(-5px);
+}
+
+.tarjeta img {
+  width: 100%;
+  max-width: 200px;
+  height: 180px;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+.tarjeta h3 {
+  font-size: 17px;
+  margin: 12px 0;
+}
+
+.precio {
+  color: var(--texto-secundario);
+  font-size: 17px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+/* Solo el botón de la tarjeta: una regla general button { } cambiaría el del encabezado */
+.action-btn-add {
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 15px;
+  font-weight: bold;
+  background: var(--principal);
+  color: #FFFFFF;
+}
+
+.action-btn-add:hover {
+  opacity: 0.8;
+}
+
+@media (max-width: 850px) {
+  .catalogo {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .tarjeta {
+    padding: 10px;
+  }
+
+  .tarjeta img {
+    height: 150px;
+  }
+}
+
+@media (max-width: 380px) {
+  .catalogo {
+    grid-template-columns: 1fr;
+  }
+}
 
 
 /* ---------- Vista del carrito: US 2.2 (DUPT-31, DUPT-32) y US 3.1 (DUPT-35 a DUPT-37) ---------- */

@@ -13,20 +13,38 @@ export class CatalogComponent {
     this.onAddToCart = onAddToCart;
   }
 
-  render() {
-    // DUPT-22: con this.products.map(...).join('') generar una tarjeta por producto con
-    //          imagen, nombre, precio y el botón:
-    //          <button class="action-btn-add" data-id="${product.id}">Agregar al carrito</button>
+  // pintar solo algunos productos (por ejemplo, el resultado de un buscador).
+  render(products = this.products) {
     this.container.innerHTML = `
-      <p class="placeholder">Catálogo pendiente: US 1.1 (DUPT-10). Productos cargados: ${this.products.length}</p>
+      <div class="catalogo">
+        ${products.map(product => `
+          <div class="tarjeta">
+            <img src="${product.image}" alt="${product.name}" loading="lazy">
+            <h3>${product.name}</h3>
+            <p class="precio">$${product.price.toFixed(2)}</p>
+            <button class="action-btn-add" type="button" data-id="${product.id}">
+              Agregar al carrito
+            </button>
+          </div>
+        `).join('')}
+      </div>
     `;
+
     this.attachEvents();
   }
 
+  // DUPT-22: al hacer clic, busca el producto por su id y se lo pasa a app.js
   attachEvents() {
-    // DUPT-22: a cada botón .action-btn-add, al hacer clic:
-    //   const id = Number(e.currentTarget.dataset.id);   // data-id llega como texto
-    //   const product = this.products.find(p => p.id === id);
-    //   if (product) this.onAddToCart(product);
+    this.container.querySelectorAll('.action-btn-add').forEach(button => {
+      button.addEventListener('click', (e) => {
+        const id = Number(e.currentTarget.dataset.id); // data-id llega como texto
+
+        const product = this.products.find(p => p.id === id);
+
+        if (product) {
+          this.onAddToCart(product);
+        }
+      });
+    });
   }
 }
