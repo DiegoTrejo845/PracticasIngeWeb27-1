@@ -4,12 +4,13 @@
 import { StorageService } from '../services/storageService.js';
 
 // DUPT-27 (US 2.1): la propuesta pide que la clave se llame 'cart'.
-const STORAGE_KEY = 'SHOPPING_CART';
+const STORAGE_KEY = 'cart';
 
 export class Cart {
   constructor() {
-    // Cargamos el carrito inicial desde localStorage o inicializamos un arreglo vacío
-    this.items = StorageService.get(STORAGE_KEY) || [];
+    //DUPT 29 : al recargar recupera lo guardado. si no hay nada o no es un arreglo, empieza con un arreglo vacío.
+    const saved = StorageService.get(STORAGE_KEY)
+    this.items = Array.isArray(saved) ? saved : [];
   }
 
   // Método privado para sincronizar con localStorage
