@@ -1,6 +1,7 @@
 // US 2.2 — Modificar y eliminar ítems (DUPT-12, Sprint 1)
-// US 3.1 — Vista detallada del carrito (DUPT-13, Sprint 2)
-// El constructor ya está fijo porque app.js lo usa así; lo demás se completa en las historias.
+// US 3.1 — Vista detallada del carrito (DUPT-13, Sprint 2): subtotal por ítem, desglose con envío
+//          y mensaje de carrito vacío con botón para volver (DUPT-35 a DUPT-37).
+// El diseño de las filas viene de la ventana del carrito que hizo Yael.
 export class CartViewComponent {
   /**
    * @param {string} containerId  id del elemento donde se dibuja: 'cart-container'
@@ -15,18 +16,81 @@ export class CartViewComponent {
 
   render() {
     const items = this.cart.getItems();
-    // DUPT-31: una fila por producto con nombre, precio, botones - / + y basurero (data-id en cada botón)
-    // DUPT-35 a DUPT-37 (Sprint 2): subtotal por ítem, total con this.cart.getTotal() y mensaje de carrito vacío
+
+    // DUPT-37 (US 3.1) completa este mensaje con el botón para volver al catálogo
+    if (items.length === 0) {
+      this.container.innerHTML = `<p class="vacio">Tu carrito está vacío.</p>`;
+      return;
+    }
+
+    // DUPT-31: una fila por producto
+    // DUPT-32: botones - / + y eliminar; cada uno lleva su acción y el id del producto
+    // DUPT-33: el total se calcula con getTotal() cada vez que se vuelve a pintar
     this.container.innerHTML = `
-      <p class="placeholder">Vista del carrito pendiente: US 2.2 (DUPT-12) y US 3.1 (DUPT-13). Productos en el carrito: ${items.length}</p>
+      <div class="cart-items">
+        ${items.map(item => `
+          <div class="item-carrito">
+            <div class="item-info">
+              <h3>${item.name}</h3>
+              <p>Precio: $${item.price.toFixed(2)}</p>
+            </div>
+
+            <div class="cantidad">
+              <button class="action-btn" type="button" data-action="restar" data-id="${item.id}"
+                aria-label="Quitar uno de ${item.name}">−</button>
+              <span>${item.quantity}</span>
+              <button class="action-btn" type="button" data-action="sumar" data-id="${item.id}"
+                aria-label="Agregar uno de ${item.name}">+</button>
+              <button class="action-btn-delete" type="button" data-action="eliminar" data-id="${item.id}"
+                aria-label="Eliminar ${item.name} del carrito">
+                <svg class="icon-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M3 6h18" />
+                  <path d="M8 6V4h8v2" />
+                  <path d="M19 6l-1 14H6L5 6" />
+                  <path d="M10 11v6M14 11v6" />
+                </svg>
+                Eliminar
+              </button>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+
+      <div class="resumen">
+        <h3>Total: $${this.cart.getTotal().toFixed(2)}</h3>
+      </div>
     `;
+
     this.attachEvents();
   }
 
+  // DUPT-32: cada botón cambia el carrito (Cart.js lo guarda en localStorage de inmediato),
+  // vuelve a pintar la vista y avisa a app.js para que actualice el contador (DUPT-33)
   attachEvents() {
-    // DUPT-32: cada botón llama a un método de Cart y después vuelve a pintar y avisa al contador:
-    //   this.cart.updateQuantity(id, cantidad)  o  this.cart.removeItem(id)
-    //   this.render();
-    //   this.onCartChange();
+    this.container.querySelectorAll('[data-action]').forEach(button => {
+      button.addEventListener('click', (e) => {
+        const action = e.currentTarget.dataset.action;
+        const id = Number(e.currentTarget.dataset.id); // data-id llega como texto
+        const item = this.cart.getItems().find(i => i.id === id);
+
+        if (!item) return;
+
+        if (action === 'sumar') {
+          this.cart.updateQuantity(id, item.quantity + 1);
+        }
+
+        if (action === 'restar') {
+          this.cart.updateQuantity(id, item.quantity - 1); // si llega a 0, Cart.js lo elimina
+        }
+
+        if (action === 'eliminar') {
+          this.cart.removeItem(id);
+        }
+
+        this.render();
+        this.onCartChange();
+      });
+    });
   }
 }
