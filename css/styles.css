@@ -298,3 +298,29 @@ button { font: inherit; cursor: pointer; }
   background: var(--fondo, #F5F0FA);
   color: var(--texto-secundario, #705B83);
 }
+
+/* ---------- Finalizar compra: DUPT-55 (botón) y US 4.1 (DUPT-14) ---------- */
+.checkout-bar {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+.checkout-btn {
+  border: none;
+  border-radius: 10px;
+  padding: 12px 24px;
+  font-weight: bold;
+  background: var(--principal, #7950A5);
+  color: #FFFFFF;
+}
+
+.checkout-btn:hover {
+  opacity: 0.85;
+}
+
+@media (max-width: 600px) {
+  .checkout-btn {
+    width: 100%;
+  }
+}
