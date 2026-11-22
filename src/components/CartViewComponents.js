@@ -6,12 +6,15 @@ export class CartViewComponent {
   /**
    * @param {string} containerId  id del elemento donde se dibuja: 'cart-container'
    * @param {Cart} cart  la misma instancia del carrito que usa app.js
-   * @param {() => void} onCartChange  updateCartBadge de app.js: llamarla después de cada cambio
+   * @param {object} opciones
+   * @param {() => void} opciones.onCartChange  updateCartBadge de app.js: llamarla después de cada cambio
+   * @param {ModalComponent} opciones.modal  ventana modal de US 4.4 para confirmar antes de eliminar
    */
-  constructor(containerId, cart, onCartChange) {
+  constructor(containerId, cart, { onCartChange, modal }) {
     this.container = document.getElementById(containerId);
     this.cart = cart;
     this.onCartChange = onCartChange;
+    this.modal = modal;
   }
 
   render() {
@@ -69,12 +72,26 @@ export class CartViewComponent {
   // vuelve a pintar la vista y avisa a app.js para que actualice el contador (DUPT-33)
   attachEvents() {
     this.container.querySelectorAll('[data-action]').forEach(button => {
-      button.addEventListener('click', (e) => {
+      // async: para poder esperar (await) la respuesta de la ventana modal
+      button.addEventListener('click', async (e) => {
         const action = e.currentTarget.dataset.action;
         const id = Number(e.currentTarget.dataset.id); // data-id llega como texto
         const item = this.cart.getItems().find(i => i.id === id);
 
         if (!item) return;
+
+        // DUPT-61 (US 4.4): antes de quitar un producto se pide confirmación en la ventana modal.
+        // También con "−" cuando queda uno, porque en ese caso Cart.js lo elimina.
+        const quitaProducto = action === 'eliminar' || (action === 'restar' && item.quantity === 1);
+
+        if (quitaProducto) {
+          const acepta = await this.modal.confirmar(
+            'Eliminar producto',
+            `¿Quieres quitar «${item.name}» de tu carrito?`,
+            { textoAceptar: 'Eliminar', tipo: 'peligro' }
+          );
+          if (!acepta) return;   // canceló o presionó Esc: el carrito no cambia
+        }
 
         if (action === 'sumar') {
           this.cart.updateQuantity(id, item.quantity + 1);

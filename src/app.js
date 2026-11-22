@@ -4,6 +4,7 @@ import { Cart } from './models/Cart.js';
 import { PRODUCTS } from './data/products.js';
 import { CatalogComponent } from './components/CatalogComponents.js';
 import { CartViewComponent } from './components/CartViewComponents.js';
+import { ModalComponent } from './components/ModalComponent.js';
 
 // Se ejecuta cuando el HTML ya cargó: así ningún getElementById regresa null
 document.addEventListener('DOMContentLoaded', () => {
@@ -34,7 +35,13 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // Inicializar componentes
-  const cartViewComponent = new CartViewComponent('cart-container', cart, updateCartBadge);
+  // US 4.4 (DUPT-58): una sola ventana modal para toda la app, en lugar de alert y confirm
+  const modal = new ModalComponent('customModal');
+
+  const cartViewComponent = new CartViewComponent('cart-container', cart, {
+    onCartChange: updateCartBadge,
+    modal,
+  });
 
   const catalogComponent = new CatalogComponent(
     'catalog-container',
