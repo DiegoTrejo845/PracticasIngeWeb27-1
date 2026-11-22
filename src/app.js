@@ -15,11 +15,22 @@ document.addEventListener('DOMContentLoaded', () => {
   const openCartBtn = document.getElementById('open-cart-btn');
   const closeCartBtn = document.getElementById('close-cart-btn');
   const cartBadge = document.getElementById('cart-badge');
+  const toast = document.getElementById('toast');
 
   // Actualiza el número del contador con la suma de las cantidades
   const updateCartBadge = () => {
     const totalItems = cart.getItems().reduce((sum, item) => sum + item.quantity, 0);
     cartBadge.textContent = totalItems;
+  };
+
+  // DUPT-54: muestra un aviso abajo de la pantalla y lo oculta después de 2 segundos.
+  // Si se agrega otro producto antes, se reinicia el tiempo para que no parpadee.
+  let toastTimer;
+  const showToast = (message) => {
+    toast.textContent = message;
+    toast.classList.add('visible');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('visible'), 2000);
   };
 
   // Inicializar componentes
@@ -31,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     (product) => {
       cart.addItem(product);   // US 2.1: se guarda en localStorage
       updateCartBadge();       // US 1.1: el contador del ícono se actualiza
+      showToast(`Producto añadido al carrito: ${product.name}`); // DUPT-54
     }
   );
 

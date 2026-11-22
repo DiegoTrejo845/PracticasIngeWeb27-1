@@ -11,6 +11,9 @@ button { font: inherit; cursor: pointer; }
 .main-header { display: flex; justify-content: space-between; align-items: center; background: #ffffff; padding: 15px 40px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); border-bottom: 1px solid #e2e8f0; }
 .logo { font-size: 1.25rem; font-weight: 700; color: #0f172a; }
 
+/* DUPT-54: la cabecera se queda arriba al bajar o subir, así el carrito y su contador siempre se ven */
+.main-header { position: sticky; top: 0; z-index: 100; }
+
 /* Botón de Navegación del Carrito */
 .nav-btn-cart {
   position: relative;
@@ -66,6 +69,30 @@ button { font: inherit; cursor: pointer; }
   box-shadow: 0 0 0 2px #ffffff; /* Borde blanco que ayuda a recortar visualmente el ícono SVG */
   pointer-events: none;
   z-index: 10;
+}
+
+/* DUPT-54: aviso «Producto añadido al carrito». Aparece abajo al centro y se va solo */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  z-index: 200;
+  max-width: calc(100% - 32px);
+  padding: 12px 18px;
+  border-radius: 10px;
+  background: #0f172a;
+  color: #ffffff;
+  font-size: 0.95rem;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.25);
+  opacity: 0;
+  transform: translate(-50%, 16px);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.toast.visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
 }
 
 /* ---------- Las dos vistas: solo se ve la que tiene .active ---------- */
