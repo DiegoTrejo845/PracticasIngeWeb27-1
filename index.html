@@ -53,6 +53,18 @@
   <!-- DUPT-54: aviso «Producto añadido al carrito»; role="status" hace que los lectores de pantalla lo anuncien -->
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
+  <!-- US 4.4 (DUPT-58): ventana modal reutilizable en lugar de alert. La maneja ModalComponent.js.
+       Los botones van en un form con method="dialog": al presionarlos se cierra la ventana
+       y el navegador guarda su value ('aceptar' o 'cancelar') en returnValue -->
+  <dialog id="customModal" class="modal" aria-labelledby="modalTitle" aria-describedby="modalMessage">
+    <h2 id="modalTitle">Título</h2>
+    <p id="modalMessage">Mensaje</p>
+    <form method="dialog" class="modal-actions">
+      <button id="modalCancelBtn" class="modal-btn modal-btn-secundario" value="cancelar">Cancelar</button>
+      <button id="modalBtn" class="modal-btn" value="aceptar">Aceptar</button>
+    </form>
+  </dialog>
+
   <!-- type="module" es obligatorio para usar import / export -->
   <script type="module" src="./src/app.js"></script>
 </body>

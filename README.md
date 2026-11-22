@@ -30,7 +30,8 @@ Abrir `index.html` con doble clic no funciona: los módulos (`import` / `export`
     ├── app.js                 programa principal: conecta todo y cambia de vista
     ├── components/
     │   ├── CatalogComponents.js   catálogo (US 1.1)
-    │   └── CartViewComponents.js  vista del carrito (US 2.2 y 3.1)
+    │   ├── CartViewComponents.js  vista del carrito (US 2.2 y 3.1)
+    │   └── ModalComponent.js      ventana modal en lugar de alert (US 4.4)
     ├── data/products.js       arreglo de productos (US 1.1)
     ├── models/Cart.js         lógica del carrito (US 2.1, código del profesor)
     └── services/storageService.js   lectura y escritura en localStorage
