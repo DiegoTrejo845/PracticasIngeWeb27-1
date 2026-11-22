@@ -41,6 +41,12 @@
         <button id="close-cart-btn" class="nav-btn-back">← Volver al Catálogo</button>
       </div>
       <div id="cart-container"></div>
+
+      <!-- DUPT-55: botón fuera de #cart-container, para que no se borre cada vez que se vuelve a pintar
+           el carrito. Su clic lo programa US 4.1 (DUPT-14) en app.js -->
+      <div class="checkout-bar">
+        <button id="checkout-btn" class="checkout-btn" type="button">Finalizar compra</button>
+      </div>
     </section>
   </main>
 

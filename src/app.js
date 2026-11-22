@@ -46,17 +46,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   );
 
-  // Controladores de navegación entre vistas
-  openCartBtn.addEventListener('click', () => {
-    catalogView.classList.remove('active');
-    cartView.classList.add('active');
-    cartViewComponent.render(); // Renderiza el contenido actualizado al abrir
-  });
+  // DUPT-55: muestra una sola vista ('catalog' o 'cart') y oculta la otra.
+  // Al abrir el carrito lo vuelve a pintar, para que siempre tenga lo último.
+  const showView = (nombre) => {
+    catalogView.classList.toggle('active', nombre === 'catalog');
+    cartView.classList.toggle('active', nombre === 'cart');
+    if (nombre === 'cart') cartViewComponent.render();
+  };
 
-  closeCartBtn.addEventListener('click', () => {
-    cartView.classList.remove('active');
-    catalogView.classList.add('active');
-  });
+  // DUPT-55: lo que pasa cuando el usuario confirma su compra. Lo completa US 4.3 (DUPT-16)
+  const onSuccess = () => {};
+
+  // Controladores de navegación entre vistas
+  openCartBtn.addEventListener('click', () => showView('cart'));
+  closeCartBtn.addEventListener('click', () => showView('catalog'));
+
+  // US 4.1 (DUPT-14): aquí va el clic del botón «Finalizar compra» (#checkout-btn),
+  // que con productos termina llamando a onSuccess()
 
   // Renderizado inicial (al recargar, el contador muestra lo guardado)
   catalogComponent.render();

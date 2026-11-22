@@ -1,9 +1,16 @@
 # Carrito con LocalStorage — Práctica 1 y 2
 
-Tienda en línea de Ingeniería Web 2027/1 (IPN-UPIITA): catálogo de productos, carrito que se guarda en `localStorage`, vista del carrito y formulario de compra.
+Tienda en línea de Ingeniería Web 2027/1 (IPN-UPIITA): catálogo de productos, carrito que se guarda en `localStorage`, vista detallada del carrito y finalización de la compra con ventanas modales (sin `alert`).
 
 - Tablero en Jira: [DUPT board](https://ingeweb.atlassian.net/jira/software/projects/DUPT/boards/34)
 - Entregas: Sprint 1 el martes 17 de noviembre de 2026; sprints 2 y 3 el jueves 26 de noviembre de 2026.
+
+## Equipo
+
+| Integrante | GitHub | Historias de la práctica 2 |
+| --- | --- | --- |
+| Diego Uriel Pérez Trejo | DiegoTrejo845 | US 4.4 ventana modal, US 4.3 confirmación de compra, DUPT-54 y DUPT-55 |
+| Yael | eyael.paa | US 3.1 vista del carrito, US 4.1 finalizar compra y DUPT-57 |
 
 ## Cómo correrlo
 
@@ -36,9 +43,15 @@ Abrir `index.html` con doble clic no funciona: los módulos (`import` / `export`
 | US 1.1 Catálogo | DUPT-10 | `src/data/products.js`, `src/components/CatalogComponents.js`, `public/assets/`, sección de catálogo en `css/styles.css` |
 | US 2.1 Persistencia | DUPT-11 | `src/models/Cart.js`, `src/services/storageService.js` |
 | US 2.2 Modificar y eliminar | DUPT-12 | `src/components/CartViewComponents.js`, sección del carrito en `css/styles.css` |
-| US 3.1 Vista del carrito | DUPT-13 | `src/components/CartViewComponents.js`, `index.html` |
-| US 4.1 Acceso al checkout | DUPT-14 | botón “Finalizar compra” en `CartViewComponents.js`, nueva vista en `index.html` |
-| US 4.2 y 4.3 Formulario y confirmación | DUPT-15, DUPT-16 | nuevo componente del formulario en `src/components/` |
+| US 3.1 Vista del carrito | DUPT-13 | `src/components/CartViewComponents.js`, `src/utils/resumen.js`, `src/app.js` (ruta `#carrito`) |
+| US 4.1 Finalizar compra | DUPT-14 | clic de `#checkout-btn` en `src/app.js` |
+| US 4.3 Confirmación de compra | DUPT-16 | `onSuccess()` en `src/app.js` |
+| US 4.4 Ventana modal | DUPT-58 | `src/components/ModalComponent.js`, `<dialog>` en `index.html` |
+| Cabecera fija y aviso | DUPT-54 | `index.html`, `src/app.js`, `css/styles.css` |
+| Botón “Finalizar compra” y equipo | DUPT-55 | `index.html`, `src/app.js`, `README.md` |
+| Buscador y modo oscuro | DUPT-57 | `index.html`, `src/app.js`, `css/styles.css`, `src/data/products.js` |
+
+El profesor quitó el formulario de checkout el 19 de noviembre (US 4.2 quedó en el backlog de Jira) y pidió que todos los avisos fueran ventanas modales.
 
 `app.js`, `index.html` y `css/styles.css` los tocan varias historias: avisen en el chat del equipo antes de cambiarlos.
 
