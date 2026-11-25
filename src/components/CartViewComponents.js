@@ -22,9 +22,13 @@ export class CartViewComponent {
 
     // DUPT-37 (US 3.1) completa este mensaje con el botón para volver al catálogo
     if (items.length === 0) {
-      this.container.innerHTML = `<p class="vacio">Tu carrito está vacío.</p>`;
-      return;
-    }
+  this.container.innerHTML = `
+    <div class="vacio">
+      <p>Tu carrito está vacío.</p>
+    </div>
+  `;
+  return;
+}
 
     // DUPT-31: una fila por producto
     // DUPT-32: botones - / + y eliminar; cada uno lleva su acción y el id del producto
@@ -36,7 +40,8 @@ export class CartViewComponent {
             <div class="item-info">
               <h3>${item.name}</h3>
               <p>Precio: $${item.price.toFixed(2)}</p>
-            </div>
+              <p>Subtotal: $${(item.price * item.quantity).toFixed(2)}</p>
+              </div>
 
             <div class="cantidad">
               <button class="action-btn" type="button" data-action="restar" data-id="${item.id}"
@@ -61,8 +66,9 @@ export class CartViewComponent {
       </div>
 
       <div class="resumen">
-        <h3>Total: $${this.cart.getTotal().toFixed(2)}</h3>
-      </div>
+            <p>Subtotal de productos: $${this.cart.getTotal().toFixed(2)}</p>
+            <h3>Total de la compra: $${this.cart.getTotal().toFixed(2)}</h3>
+            </div>
     `;
 
     this.attachEvents();

@@ -302,8 +302,11 @@ button { font: inherit; cursor: pointer; }
 /* ---------- Finalizar compra: DUPT-55 (botón) y US 4.1 (DUPT-14) ---------- */
 .checkout-bar {
   display: flex;
-  justify-content: flex-end;
-  margin-top: 16px;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  padding: 40px;
+  flex-wrap: wrap;
 }
 
 .checkout-btn {
@@ -385,4 +388,227 @@ button { font: inherit; cursor: pointer; }
 .modal-btn:focus-visible {
   outline: 3px solid var(--borde, #DCC9F2);
   outline-offset: 2px;
+}
+
+/* BARRA DE BÚSQUEDA */
+.busqueda-container {
+    width: 100%;
+    max-width: 500px;
+    margin: 25px auto;
+    padding: 0 15px;
+}
+
+#inputBusqueda {
+    width: 100%;
+    padding: 13px 16px;
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+    background: var(--tarjeta);
+    color: var(--texto);
+    font-size: 15px;
+    outline: none;
+    transition: 0.3s;
+}
+
+#inputBusqueda:focus {
+    border-color: var(--principal);
+    box-shadow: 0 0 5px var(--sombra);
+}
+
+#inputBusqueda::placeholder {
+    color: var(--texto-secundario);
+}
+
+/* ==========================================
+   MODO OSCURO
+   ========================================== */
+
+body.modo-oscuro {
+    background: linear-gradient(135deg, #21152e, #100b19);
+    color: #f1e6f7;
+
+    --fondo: #21152e;
+    --tarjeta: #292235;
+    --texto: #f1e6f7;
+    --texto-secundario: #d0c4d8;
+    --principal: #9b4de0;
+    --borde: #665276;
+    --sombra: rgba(0, 0, 0, 0.35);
+}
+
+/* ENCABEZADO */
+body.modo-oscuro .main-header {
+    background: #292235;
+    border-bottom-color: #514361;
+}
+
+body.modo-oscuro .logo {
+    color: #f1e6f7;
+}
+
+body.modo-oscuro .cart-svg {
+    stroke: #f1e6f7;
+    color: #f1e6f7;
+}
+
+body.modo-oscuro .badge-top-right {
+    box-shadow: 0 0 0 2px #292235;
+}
+
+/*CAMBIAR EL TEMA */
+.boton-tema {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    background: #f5e9f7;
+    color: #301044;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.3s;
+}
+
+.boton-tema:hover {
+    background: #d9c1e2;
+}
+
+body.modo-oscuro .boton-tema {
+    background: #393044;
+    color: #ffffff;
+}
+
+body.modo-oscuro .boton-tema:hover {
+    background: #514361;
+}
+
+body.modo-oscuro .tarjeta {
+    background: var(--tarjeta);
+    border-color: var(--borde);
+    color: var(--texto);
+}
+
+body.modo-oscuro .precio {
+    color: var(--texto-secundario);
+}
+
+body.modo-oscuro .action-btn-add,
+body.modo-oscuro .checkout-btn {
+    background: var(--principal);
+}
+
+
+body.modo-oscuro #inputBusqueda {
+    background: #191522;
+    color: #ffffff;
+    border-color: var(--borde);
+}
+
+body.modo-oscuro #inputBusqueda::placeholder {
+    color: #b7aabe;
+}
+
+body.modo-oscuro #inputBusqueda:focus {
+    border-color: #bb86fc;
+    box-shadow: 0 0 5px rgba(187, 134, 252, 0.4);
+}
+
+body.modo-oscuro .item-carrito {
+    background: var(--tarjeta);
+    border-color: var(--borde);
+}
+
+body.modo-oscuro .nav-btn-back {
+    background: #393044;
+    color: #ffffff;
+    border-color: var(--borde);
+}
+
+body.modo-oscuro .action-btn {
+    background: #574268;
+    color: #ffffff;
+}
+
+body.modo-oscuro .action-btn-delete {
+    background: #9e4058;
+}
+
+body.modo-oscuro .vacio {
+    background: var(--tarjeta);
+    color: var(--texto-secundario);
+}
+
+/* VENTANA MODAL */
+body.modo-oscuro .modal {
+    background: #292235;
+    color: #f1e6f7;
+}
+
+body.modo-oscuro .modal h2 {
+    color: #c69aff;
+}
+
+body.modo-oscuro .modal p {
+    color: #d0c4d8;
+}
+
+body.modo-oscuro .modal-btn-secundario {
+    color: #ffffff;
+    border-color: #665276;
+}
+
+body.modo-oscuro .modal-btn {
+    background: #9b4de0;
+}
+
+
+body.modo-oscuro .toast {
+    background: #393044;
+    color: #ffffff;
+}
+
+@media (max-width: 600px) {
+    .main-header {
+        padding: 15px;
+        gap: 10px;
+    }
+
+    .logo {
+        font-size: 1rem;
+    }
+
+    .boton-tema {
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+}
+
+/* Botón para vaciar el carrito */
+.empty-cart-btn {
+  padding: 12px 20px;
+  border: 1px solid #c0392b;
+  border-radius: 8px;
+  background: #fff;
+  color: #c0392b;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.empty-cart-btn:hover {
+  background: #c0392b;
+  color: #fff;
+}
+
+/* Botón para vaciar el carrito en modo oscuro */
+body.modo-oscuro .empty-cart-btn {
+  background: #39212b;
+  color: #ff8a8a;
+  border-color: #a94452;
+}
+
+body.modo-oscuro .empty-cart-btn:hover {
+  background: #a94452;
+  color: #fff;
 }

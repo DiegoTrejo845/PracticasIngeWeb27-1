@@ -92,7 +92,7 @@ export const PRODUCTS = [
     image: 'https://media.istockphoto.com/id/668311868/es/foto/cosm%C3%A9ticos-belleza-brochas-de-maquillaje-en-fila.webp?a=1&b=1&s=612x612&w=0&k=20&c=P5gpUTM3yncCoQb0oymRGyqqiq1Unz28yYFcbPL1VTI='
   },
     {
-    id: 116,
+    id: 16,
     name: 'Desmaquillante',
     price: 330,
     image: 'https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQtJARz-1cUdGD_-CmK-xIXvsB_aA4vnAS8pijDJcMUj39YwuBcZKzbjTZmpbjJJtcyT8vJ-GvZ2lJKs25MMajiZNsC5bNuCMb6u0nvQdtBZtDiXQK3-7faqRu9Ie_VupKVPMcoiQ&usqp=CAc'

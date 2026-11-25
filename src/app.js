@@ -1,3 +1,4 @@
+
 // Programa principal: conecta los datos, el carrito y los componentes.
 // Sigue la estructura que mostró el profesor en la clase del 11 de noviembre.
 import { Cart } from './models/Cart.js';
@@ -6,36 +7,98 @@ import { CatalogComponent } from './components/CatalogComponents.js';
 import { CartViewComponent } from './components/CartViewComponents.js';
 import { ModalComponent } from './components/ModalComponent.js';
 
-// Se ejecuta cuando el HTML ya cargó: así ningún getElementById regresa null
+// Se ejecuta cuando el HTML ya cargó.
 document.addEventListener('DOMContentLoaded', () => {
   const cart = new Cart();
 
   // Referencias a elementos de la UI principal
+  const emptyCartBtn = document.getElementById('empty-cart-btn');
   const catalogView = document.getElementById('catalog-view');
   const cartView = document.getElementById('cart-view');
   const openCartBtn = document.getElementById('open-cart-btn');
   const closeCartBtn = document.getElementById('close-cart-btn');
-  const cartBadge = document.getElementById('cart-badge');
-  const toast = document.getElementById('toast');
+  // US — Vaciar todos los productos del carrito.
+emptyCartBtn.addEventListener('click', async () => {
+  const items = cart.getItems();
 
-  // Actualiza el número del contador con la suma de las cantidades
+  // Si el carrito está vacío, mostrar un aviso.
+  if (items.length === 0) {
+    await modal.mostrar(
+      'Carrito vacío',
+      'No hay productos para eliminar.',
+      'info'
+    );
+    return;
+  }
+
+  // Confirmar antes de eliminar todos los productos.
+  const acepta = await modal.confirmar(
+    'Vaciar carrito',
+    '¿Estás seguro de que deseas eliminar todos los productos?',
+    {
+      textoAceptar: 'Sí, vaciar carrito',
+      textoCancelar: 'Cancelar',
+      tipo: 'peligro'
+    }
+  );
+
+  if (!acepta) return;
+
+  // Vaciar el carrito y actualizar la pantalla.
+  cart.clear();
+  updateCartBadge();
+  cartViewComponent.render();
+
+  showToast('Se eliminaron todos los productos del carrito.');
+});
+
+  const cartBadge = document.getElementById('cart-badge');
+  const checkoutBtn = document.getElementById('checkout-btn');
+  const toast = document.getElementById('toast');
+  const botonTema = document.getElementById('boton-tema');
+  const inputBusqueda = document.getElementById('inputBusqueda');
+
+  // US — Cambiar entre modo claro y oscuro.
+  botonTema.addEventListener('click', () => {
+    document.body.classList.toggle('modo-oscuro');
+
+    if (document.body.classList.contains('modo-oscuro')) {
+      botonTema.textContent = '☀️ Modo claro';
+      localStorage.setItem('modoTema', 'oscuro');
+    } else {
+      botonTema.textContent = '🌙 Modo oscuro';
+      localStorage.setItem('modoTema', 'claro');
+    }
+  });
+
+  // Recuperar el tema guardado.
+  if (localStorage.getItem('modoTema') === 'oscuro') {
+    document.body.classList.add('modo-oscuro');
+    botonTema.textContent = '☀️ Modo claro';
+  }
+
+  // Actualiza el número del contador con la suma de las cantidades.
   const updateCartBadge = () => {
-    const totalItems = cart.getItems().reduce((sum, item) => sum + item.quantity, 0);
+    const totalItems = cart.getItems().reduce(
+      (sum, item) => sum + item.quantity,
+      0
+    );
     cartBadge.textContent = totalItems;
   };
 
-  // DUPT-54: muestra un aviso abajo de la pantalla y lo oculta después de 2 segundos.
-  // Si se agrega otro producto antes, se reinicia el tiempo para que no parpadee.
+  // DUPT-54: muestra un aviso abajo de la pantalla.
   let toastTimer;
   const showToast = (message) => {
     toast.textContent = message;
     toast.classList.add('visible');
+
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => toast.classList.remove('visible'), 2000);
+    toastTimer = setTimeout(() => {
+      toast.classList.remove('visible');
+    }, 2000);
   };
 
-  // Inicializar componentes
-  // US 4.4 (DUPT-58): una sola ventana modal para toda la app, en lugar de alert y confirm
+  // Inicializar componentes.
   const modal = new ModalComponent('customModal');
 
   const cartViewComponent = new CartViewComponent('cart-container', cart, {
@@ -47,31 +110,94 @@ document.addEventListener('DOMContentLoaded', () => {
     'catalog-container',
     PRODUCTS,
     (product) => {
-      cart.addItem(product);   // US 2.1: se guarda en localStorage
-      updateCartBadge();       // US 1.1: el contador del ícono se actualiza
-      showToast(`Producto añadido al carrito: ${product.name}`); // DUPT-54
+      cart.addItem(product);
+      updateCartBadge();
+      showToast(`Producto añadido al carrito: ${product.name}`);
     }
   );
 
-  // DUPT-55: muestra una sola vista ('catalog' o 'cart') y oculta la otra.
-  // Al abrir el carrito lo vuelve a pintar, para que siempre tenga lo último.
+  // DUPT-55: muestra una sola vista.
   const showView = (nombre) => {
     catalogView.classList.toggle('active', nombre === 'catalog');
     cartView.classList.toggle('active', nombre === 'cart');
-    if (nombre === 'cart') cartViewComponent.render();
+
+    if (nombre === 'cart') {
+      cartViewComponent.render();
+    }
   };
 
-  // DUPT-55: lo que pasa cuando el usuario confirma su compra. Lo completa US 4.3 (DUPT-16)
-  const onSuccess = () => {};
+  // US 4.3 — Compra exitosa.
+  const onSuccess = async () => {
+    // Vaciar el carrito y actualizar localStorage.
+    cart.clear();
 
-  // Controladores de navegación entre vistas
+    // Actualizar el contador y la vista del carrito.
+    updateCartBadge();
+    cartViewComponent.render();
+
+    // Regresar al catálogo.
+    showView('catalog');
+
+    // Mostrar confirmación de compra exitosa.
+    await modal.mostrar(
+      '¡Compra exitosa!',
+      'Tu compra se ha realizado correctamente.',
+      'exito'
+    );
+  };
+
+  // Abrir y cerrar el carrito.
   openCartBtn.addEventListener('click', () => showView('cart'));
   closeCartBtn.addEventListener('click', () => showView('catalog'));
 
-  // US 4.1 (DUPT-14): aquí va el clic del botón «Finalizar compra» (#checkout-btn),
-  // que con productos termina llamando a onSuccess()
+  // US 4.1 — Finalizar compra mediante ventana modal.
+  checkoutBtn.addEventListener('click', async () => {
+    const items = cart.getItems();
 
-  // Renderizado inicial (al recargar, el contador muestra lo guardado)
+    // Si el carrito está vacío, mostrar un aviso.
+    if (items.length === 0) {
+      await modal.mostrar(
+        'Carrito vacío',
+        'Tu carrito está vacío.',
+        'info'
+      );
+      return;
+    }
+
+    // Obtener el total de la compra.
+    const total = cart.getTotal().toFixed(2);
+
+    // Solicitar confirmación antes de continuar.
+    const acepta = await modal.confirmar(
+      'Confirmar compra',
+      `¿Deseas confirmar tu compra por un total de $${total}?`,
+      {
+        textoAceptar: 'Confirmar compra',
+        textoCancelar: 'Seguir comprando',
+        tipo: 'info'
+      }
+    );
+
+    if (!acepta) return;
+
+    await onSuccess();
+  });
+
+  // Renderizado inicial del catálogo.
   catalogComponent.render();
+
+  // Actualizar el contador al cargar la página.
   updateCartBadge();
-});
+
+  // US — Búsqueda de productos.
+  inputBusqueda.addEventListener('input', (e) => {
+    const textoBusqueda = e.target.value.toLowerCase().trim();
+
+    const productosFiltrados = PRODUCTS.filter(product =>
+      product.name.toLowerCase().includes(textoBusqueda)
+    );
+
+    catalogComponent.render(productosFiltrados);
+  });
+
+}); // Fin de DOMContentLoaded

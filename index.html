@@ -10,6 +10,10 @@
   <!-- Encabezado con título y botón de navegación al carrito en una sola fila -->
   <header class="main-header">
     <h1 class="logo">Mi Tienda en Línea</h1>
+    
+  <button id="boton-tema" class="boton-tema" type="button">
+  🌙 Modo oscuro
+</button>
 
     <!-- Botón de Navegación con contador integrado dentro del carrito (boton_carrito.html del profesor) -->
     <button id="open-cart-btn" class="nav-btn-cart" aria-label="Ver Carrito">
@@ -30,8 +34,19 @@
   <main>
     <!-- Vista 1: Catálogo (visible por defecto). Lo llena CatalogComponent: US 1.1 (DUPT-10) -->
     <section id="catalog-view" class="view active">
-      <div id="catalog-container"></div>
-    </section>
+
+  <!-- Barra de búsqueda -->
+  <div class="busqueda-container">
+    <input
+      type="text"
+      id="inputBusqueda"
+      placeholder="Buscar productos..."
+      autocomplete="off"
+    >
+  </div>
+
+  <div id="catalog-container"></div>
+</section>
 
     <!-- Vista 2: Carrito (oculta hasta hacer clic en el carrito). La llena CartViewComponent: US 2.2 (DUPT-12) y US 3.1 (DUPT-13) -->
     <section id="cart-view" class="view">
@@ -45,7 +60,9 @@
       <!-- DUPT-55: botón fuera de #cart-container, para que no se borre cada vez que se vuelve a pintar
            el carrito. Su clic lo programa US 4.1 (DUPT-14) en app.js -->
       <div class="checkout-bar">
-        <button id="checkout-btn" class="checkout-btn" type="button">Finalizar compra</button>
+        <button id="empty-cart-btn" class="empty-cart-btn" type="button"> Vaciar carrito </button>
+        <button id="checkout-btn" class="checkout-btn" type="button"> Finalizar compra
+        </button>
       </div>
     </section>
   </main>
