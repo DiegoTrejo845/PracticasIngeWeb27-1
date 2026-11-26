@@ -126,24 +126,29 @@ emptyCartBtn.addEventListener('click', async () => {
     }
   };
 
-  // US 4.3 — Compra exitosa.
+  // US 4.3 (DUPT-16) — Compra exitosa.
   const onSuccess = async () => {
-    // Vaciar el carrito y actualizar localStorage.
-    cart.clear();
+    // DUPT-47: el total se guarda antes de vaciar el carrito, porque después ya es 0.
+    const totalPagado = cart.getTotal().toFixed(2);
 
-    // Actualizar el contador y la vista del carrito.
+    // DUPT-48: vaciar el carrito y borrar la clave 'cart' del localStorage.
+    // clear() deja guardado un arreglo vacío; removeItem borra la clave completa.
+    cart.clear();
+    localStorage.removeItem('cart');
+
+    // DUPT-48: el contador queda en 0 y la vista del carrito se vuelve a pintar.
     updateCartBadge();
     cartViewComponent.render();
 
-    // Regresar al catálogo.
-    showView('catalog');
-
-    // Mostrar confirmación de compra exitosa.
+    // DUPT-47: ventana modal de éxito con el total pagado.
     await modal.mostrar(
-      '¡Compra exitosa!',
-      'Tu compra se ha realizado correctamente.',
+      '¡Gracias por tu compra!',
+      `Pagaste $${totalPagado}. Tu carrito quedó vacío.`,
       'exito'
     );
+
+    // DUPT-49: al presionar Aceptar en la ventana modal, regresa al catálogo.
+    showView('catalog');
   };
 
   // Abrir y cerrar el carrito.
